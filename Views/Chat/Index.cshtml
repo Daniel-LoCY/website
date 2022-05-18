@@ -1,0 +1,60 @@
+﻿@using WebApplication1.Models
+
+
+<label>NAME:</label>
+<input id="content" type="text" />
+<button type="button" id="btn" class="btn btn-primary">ADD</button>
+
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Action</th>
+    </tr>
+        </thead>
+        @if(Model != null)
+        {
+            foreach (var item in Model)
+            {
+                <tbody>
+                    <tr>
+                        <td>@item.id</td>
+                        <td>@item.name</td>
+                        <td><button class="btn btn-danger" type="button" onclick="delete_user(@item.id)">DELETE</button></td>
+                    </tr>
+                </tbody>
+            }
+        }
+</table>
+<script>
+    $("#btn").click(function (){
+        let title = $("#title").val();
+        let content = $("#content").val();
+        if(content == ''){
+            swal('ERROR', '', 'error');
+            return;
+        }
+        $.ajax({
+            url : '@Url.Action("Add", "Chat")',
+            data : { "title" : title ,
+                          "content" : content
+            },
+            type : "POST",
+            success : function(data){
+                location.href = '@Url.Action("Index", "Chat")'
+            }
+        })
+    })
+
+    function delete_user(id){
+        $.ajax({
+            url : '@Url.Action("Delete", "Chat")',
+            data : { "id" : id },
+            type : "POST",
+            success : function(data){
+                location.href = '@Url.Action("Index", "Chat")'
+            }
+        });
+    }
+</script>
