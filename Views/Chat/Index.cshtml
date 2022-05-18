@@ -5,28 +5,27 @@
 <input id="content" type="text" />
 <button type="button" id="btn" class="btn btn-primary">ADD</button>
 
-<table>
-    <thead>
-    <tr>
-        <th>ID</th>
-        <th>Name</th>
-        <th>Action</th>
-    </tr>
-        </thead>
-        @if(Model != null)
-        {
-            foreach (var item in Model)
+<div>
+    <table class="table">
+        <tr>
+            <th>編號</th>
+            <th>內容</th>
+            <th>動作</th>
+        </tr>
+            @if(Model != null)
             {
-                <tbody>
-                    <tr>
-                        <td>@item.id</td>
-                        <td>@item.name</td>
-                        <td><button class="btn btn-danger" type="button" onclick="delete_user(@item.id)">DELETE</button></td>
-                    </tr>
-                </tbody>
+                foreach (var item in Model)
+                {
+                        <tr>
+                            <td>@item.id</td>
+                            <td>@item.name</td>
+                            <td><button class="btn btn-danger" type="button" onclick="delete_user(@item.id)">DELETE</button></td>
+                        </tr>
+                }
             }
-        }
-</table>
+    </table>
+</div>
+
 <script>
     $("#btn").click(function (){
         let title = $("#title").val();
@@ -37,9 +36,7 @@
         }
         $.ajax({
             url : '@Url.Action("Add", "Chat")',
-            data : { "title" : title ,
-                          "content" : content
-            },
+            data : { "name" : content },
             type : "POST",
             success : function(data){
                 location.href = '@Url.Action("Index", "Chat")'

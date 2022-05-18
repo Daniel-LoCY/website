@@ -6,7 +6,7 @@ namespace WebApplication1.Controllers
 {
     public class ChatController : Controller
     {
-        private readonly string Connstr = "Data Source=daniell.database.windows.net;Initial Catalog=daniel;Persist Security Info=True;User ID=daniel;Password=5627Abcd";
+        private readonly string Connstr = "Data Source=daniell.database.windows.net;Initial Catalog=daniel;Persist Security Info=True;User ID=daniel;Password=5627Abcd;";
         public IActionResult Index()
         {
             var sqlList = new List<SqlModel>();
@@ -32,8 +32,9 @@ namespace WebApplication1.Controllers
 
         public JsonResult Add(SqlModel sqlModel)
         {
+            Console.WriteLine(sqlModel.name);
             var sql = new SqlConnection(Connstr);
-            string sqlStr = $"INSERT INTO [dbo].[Test] VALUES ('{sqlModel.name}');";
+            string sqlStr = $"INSERT INTO [dbo].[Test] VALUES (N'{sqlModel.name}');";
             SqlCommand command = new SqlCommand(sqlStr);
             command.Connection = sql;
             sql.Open();
