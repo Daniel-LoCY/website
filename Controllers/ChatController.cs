@@ -32,7 +32,6 @@ namespace WebApplication1.Controllers
 
         public JsonResult Add(SqlModel sqlModel)
         {
-            Console.WriteLine(sqlModel.name);
             var sql = new SqlConnection(Connstr);
             string sqlStr = $"INSERT INTO [dbo].[Test] VALUES (N'{sqlModel.name}');";
             SqlCommand command = new SqlCommand(sqlStr);

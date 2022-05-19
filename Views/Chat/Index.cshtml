@@ -1,9 +1,10 @@
 ﻿@using WebApplication1.Models
 
-
-<label>NAME:</label>
-<input id="content" type="text" />
-<button type="button" id="btn" class="btn btn-primary">ADD</button>
+<div>
+    <label>內容:</label>
+    <input id="content" type="text" />
+    <button type="button" id="btn" class="btn btn-primary">新增</button>
+<div>
 
 <div>
     <table class="table">
@@ -19,7 +20,7 @@
                         <tr>
                             <td>@item.id</td>
                             <td>@item.name</td>
-                            <td><button class="btn btn-danger" type="button" onclick="delete_user(@item.id)">DELETE</button></td>
+                            <td><button class="btn btn-danger" type="button" onclick="delete_user(@item.id)">刪除</button></td>
                         </tr>
                 }
             }
@@ -28,20 +29,22 @@
 
 <script>
     $("#btn").click(function (){
-        let title = $("#title").val();
         let content = $("#content").val();
         if(content == ''){
-            swal('ERROR', '', 'error');
-            return;
+            swal('錯誤', '請輸入內容', 'error');
         }
-        $.ajax({
-            url : '@Url.Action("Add", "Chat")',
-            data : { "name" : content },
-            type : "POST",
-            success : function(data){
-                location.href = '@Url.Action("Index", "Chat")'
-            }
-        })
+        else{
+            $.ajax({
+                url : '@Url.Action("Add", "Chat")',
+                data : { "name" : content },
+                type : "POST",
+                success : function(data){
+                    swal('新增成功', '', 'success').then(function(){
+                        location.href = '@Url.Action("Index", "Chat")'
+                    })
+                }
+            })
+        }
     })
 
     function delete_user(id){
