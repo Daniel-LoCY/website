@@ -11,7 +11,7 @@
         <tr>
             <th>編號</th>
             <th>內容</th>
-            <th>動作</th>
+            <th>操作</th>
         </tr>
             @if(Model != null)
             {
@@ -48,13 +48,26 @@
     })
 
     function delete_user(id){
-        $.ajax({
-            url : '@Url.Action("Delete", "Chat")',
-            data : { "id" : id },
-            type : "POST",
-            success : function(data){
-                location.href = '@Url.Action("Index", "Chat")'
+        swal({
+            title: "Are you sure?",
+            text: "Once deleted, you will not be able to recover this imaginary file!",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        }).then(willDelete => {
+            if(willDelete){
+                $.ajax({
+                    url : '@Url.Action("Delete", "Chat")',
+                    data : { "id" : id },
+                    type : "POST",
+                    success : function(data){
+                        swal('刪除成功', '', 'success').then(function(){
+                            location.href = '@Url.Action("Index", "Chat")'
+                        })
+                    }
+                });
             }
-        });
+        })
+        
     }
 </script>
