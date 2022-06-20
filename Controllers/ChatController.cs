@@ -27,6 +27,11 @@ namespace WebApplication1.Controllers
                 }
             }
             sql.Close();
+
+            WebApplication1.Service.RequestService requestService = new Service.RequestService();
+            var s = requestService.Get();
+            Console.WriteLine(s);
+            
             return View(sqlList);
         }
 
