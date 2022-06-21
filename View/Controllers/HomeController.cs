@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using WebApplication1.Models;
+using Newtonsoft.Json;
 
 namespace WebApplication1.Controllers
 {
@@ -13,8 +14,20 @@ namespace WebApplication1.Controllers
             _logger = logger;
         }
 
+        public class Information
+        {
+            public int id { get; set; } = 1;
+        }
         public IActionResult Index()
         {
+            WebApplication1.Service.RequestService requestService = new Service.RequestService();
+            Information information = new Information()
+            {
+                id = 4
+            };
+            var s = requestService.Post(information);
+            var data = JsonConvert.DeserializeObject<Information>(s);
+            TempData["response"] = data.id;
             return View();
         }
 
