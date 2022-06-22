@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using WebApplication1.Models;
 using Newtonsoft.Json;
+using WebApplication1.ViewModels;
 
 namespace WebApplication1.Controllers
 {
@@ -14,21 +15,10 @@ namespace WebApplication1.Controllers
             _logger = logger;
         }
 
-        public class Information
-        {
-            public int id { get; set; } = 1;
-        }
         public IActionResult Index()
         {
-            WebApplication1.Service.RequestService requestService = new Service.RequestService();
-            Information information = new Information()
-            {
-                id = 4
-            };
-            var s = requestService.Post(information);
-            var data = JsonConvert.DeserializeObject<Information>(s);
-            TempData["response"] = data.id;
-            return View();
+            var viewModel = new HomeViewModel();
+            return View(viewModel);
         }
 
         public IActionResult Privacy()
@@ -41,6 +31,17 @@ namespace WebApplication1.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        public IActionResult TestResponse([Bind(Prefix = "Information")] Information information)
+        {
+            WebApplication1.Service.RequestService requestService = new Service.RequestService();
+            var s = requestService.Post(information, "test/post");
+            var data = JsonConvert.DeserializeObject<Information>(s);
+            var viewModel = new HomeViewModel();
+            viewModel.Information.id = data.id;
+
+            return View("index", viewModel);
         }
     }
 }

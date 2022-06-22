@@ -1,0 +1,17 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+</div>
+
+<div>
+    <form asp-controller="Home" asp-action="TestResponse">
+        <input name="Information.id" type="number" />
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
+
+
+<partial name="./List" />

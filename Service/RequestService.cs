@@ -33,8 +33,8 @@ namespace WebApplication1.Service{
             return s;
         }
 
-        public string Post(object param, string url="https://localhost:7164/Test/post"){
-            WebRequest request = WebRequest.Create(url);
+        public string Post(object param, string url){
+            WebRequest request = WebRequest.Create("https://daniellapi.azurewebsites.net/" + url);
             request.Method = "POST";
             request.Credentials = CredentialCache.DefaultCredentials;
             string postData = JsonConvert.SerializeObject(param, new JsonSerializerSettings(){NullValueHandling = NullValueHandling.Ignore});
