@@ -1,10 +1,19 @@
-﻿@using WebApplication1.Models
+﻿@model WebApplication1.ViewModels.ChatViewModel
 
-<div>
-    <label>內容:</label>
-    <input id="content" type="text" />
-    <button type="button" id="btn" class="btn btn-primary">新增</button>
-<div>
+@{
+    @if(TempData["success_message"] != null){
+        <script type="text/javascript">
+            swal('@Html.Raw(@TempData["success_message"])', "", "success")
+        </script>
+    }
+    @if(TempData["alert_message"] != null){
+        <script type="text/javascript">
+            swal('@Html.Raw(@TempData["alert_message"])', "", "error")
+        </script>
+    }
+}
+
+<a href="chat/Add"><button class="btn btn-primary">新增</button></a>
 
 <div>
     <table class="table">
@@ -15,42 +24,33 @@
         </tr>
             @if(Model != null)
             {
-                foreach (var item in Model)
+                foreach (var item in Model.Chat_List)
                 {
-                        <tr>
-                            <td>@item.id</td>
-                            <td>@item.name</td>
-                            <td><button class="btn btn-danger" type="button" onclick="delete_user(@item.id)">刪除</button></td>
-                        </tr>
+                    <tr>
+                        <td id="id">@item.id</td>
+                        <td><div id="name">@item.name</div></td>
+                        <td>
+                            <div id="operate">
+                                <button class="btn btn-secondary" type="button" onclick="Edit(this)">修改</button>
+                                <button class="btn btn-danger" type="button" onclick="delete_user(@item.id)">刪除</button>
+                            </div>
+                            <div id="edit" class="d-none">
+                                <button class="btn btn-success" type="button" onclick="Modify(this)">儲存</button>
+                                <button class="btn btn-secondary" type="button" onclick="Cancel(this)">取消</button>
+                            </div>
+                        </td>
+                    </tr>
                 }
             }
     </table>
 </div>
 
 <script>
-    $("#btn").click(function (){
-        let content = $("#content").val();
-        if(content == ''){
-            swal('錯誤', '請輸入內容', 'error');
-        }
-        else{
-            $.ajax({
-                url : '@Url.Action("Add", "Chat")',
-                data : { "name" : content },
-                type : "POST",
-                success : function(data){
-                    swal('新增成功', '', 'success').then(function(){
-                        location.href = '@Url.Action("Index", "Chat")'
-                    })
-                }
-            })
-        }
-    })
-
+    
     function delete_user(id){
         swal({
-            title: "Are you sure?",
-            text: "Once deleted, you will not be able to recover this imaginary file!",
+            title: "確定刪除?",
+            text: "刪除之後將無法復原",
             icon: "warning",
             buttons: true,
             dangerMode: true,
@@ -61,13 +61,58 @@
                     data : { "id" : id },
                     type : "POST",
                     success : function(data){
-                        swal('刪除成功', '', 'success').then(function(){
-                            location.href = '@Url.Action("Index", "Chat")'
-                        })
+                        if(data.result == "success"){
+                            swal('刪除成功', '', 'success').then(function(){
+                                location.href = '@Url.Action("Index", "Chat")'
+                            })
+                        }
+                        else{
+                            swal('刪除失敗', data.message, 'error').then(function(){
+                                location.href = '@Url.Action("Index", "Chat")'
+                            })
+                        }
+                        
                     }
                 });
             }
         })
         
+    }
+
+    function Edit(btn){
+        let form = $(btn).closest("tr")
+        let name = form.find("#name")
+        let name_value = $(name).html()
+        $(name).html(`<input class="form-control" id="modify_name" value=${name_value} />`)
+        form.find("#operate").attr("class", "d-none")
+        form.find("#edit").attr("class", "")
+    }
+
+    function Modify(btn){
+        let tr = $(btn).closest("tr")
+        $.ajax({
+            url: "@Url.Action("Modify", "Chat")",
+            type: "POST",
+            data: { "id" : tr.find("#id").html(), "name" : tr.find("#modify_name").val() },
+            success: function(data){
+                if(data.result == "success"){
+                    swal('修改成功', '', 'success').then(function(){
+                        location.href = '@Url.Action("Index", "Chat")'
+                    })
+                }
+                else{
+                    swal('修改失敗', data.message, 'error').then(function(){
+                        location.href = '@Url.Action("Index", "Chat")'
+                    })
+                }
+            }
+        })
+    }
+
+    function Cancel(btn){
+        let form = $(btn).closest("tr")
+        form.find("#name").html(`${form.find("#modify_name").val()}`)
+        form.find("#operate").attr("class", "")
+        form.find("#edit").attr("class", "d-none")
     }
 </script>

@@ -2,12 +2,18 @@ using System.Net;
 using System.Text;
 using Newtonsoft.Json;
 
-namespace WebApplication1.Service{
-    
-    public class RequestService{
-        public string Get(string url = "http://20.80.46.248:5000/static/chat.txt"){
+namespace WebApplication1.Service
+{
+    public class RequestService
+    {
+        #if true
+            private readonly string url = "https://localhost:7164/";
+        #else
+            private readonly string url = "https://daniellapi.azurewebsites.net/";
+        #endif
+        public string Get(string api, string method){
             // Create a request for the URL.
-            WebRequest request = WebRequest.Create(url);
+            WebRequest request = WebRequest.Create(url + api + "/" + method);
             // If required by the server, set the credentials.
             request.Credentials = CredentialCache.DefaultCredentials;
             // Get the response.
@@ -29,15 +35,16 @@ namespace WebApplication1.Service{
             }
             // Close the response.
             response.Close();
-
+            Console.WriteLine($"{api}/{method}");
             return s;
         }
 
-        public string Post(object param, string url){
-            WebRequest request = WebRequest.Create("https://daniellapi.azurewebsites.net/" + url);
+        public string Post(string api, string method, object param){
+            WebRequest request = WebRequest.Create(url + api + "/" + method);
             request.Method = "POST";
             request.Credentials = CredentialCache.DefaultCredentials;
             string postData = JsonConvert.SerializeObject(param, new JsonSerializerSettings(){NullValueHandling = NullValueHandling.Ignore});
+            Console.WriteLine($"{api}/{method} {postData}");
             byte[] byteArray = Encoding.UTF8.GetBytes(postData);
             request.ContentType = "application/json";
             request.ContentLength = byteArray.Length;

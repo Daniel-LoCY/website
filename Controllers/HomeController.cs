@@ -18,7 +18,7 @@ namespace WebApplication1.Controllers
         public IActionResult Index()
         {
             var viewModel = new HomeViewModel();
-            return View(viewModel);
+            return View();
         }
 
         public IActionResult Privacy()
@@ -36,7 +36,8 @@ namespace WebApplication1.Controllers
         public IActionResult TestResponse([Bind(Prefix = "Information")] Information information)
         {
             WebApplication1.Service.RequestService requestService = new Service.RequestService();
-            var s = requestService.Post(information, "test/post");
+            var s = requestService.Post("test", "post", information);
+            Console.WriteLine(s);
             var data = JsonConvert.DeserializeObject<Information>(s);
             var viewModel = new HomeViewModel();
             viewModel.Information.id = data.id;
