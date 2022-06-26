@@ -6,7 +6,7 @@ namespace WebApplication1.Service
 {
     public class RequestService
     {
-        #if true
+        #if false
             private readonly string url = "https://localhost:7164/";
         #else
             private readonly string url = "https://daniellapi.azurewebsites.net/";
