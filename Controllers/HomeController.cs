@@ -36,11 +36,11 @@ namespace WebApplication1.Controllers
         public IActionResult TestResponse([Bind(Prefix = "Information")] Information information)
         {
             WebApplication1.Service.RequestService requestService = new Service.RequestService();
-            var s = requestService.Post("test", "post", information);
+            var s = requestService.Post("Chat", "post", information);
             Console.WriteLine(s);
             var data = JsonConvert.DeserializeObject<Information>(s);
             var viewModel = new HomeViewModel();
-            viewModel.Information.id = data.id;
+            viewModel.Information = data;
 
             return View("index", viewModel);
         }

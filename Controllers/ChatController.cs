@@ -39,9 +39,9 @@ namespace WebApplication1.Controllers
         }
 
         [HttpPost]
-        public JsonResult Delete(int id)
+        public JsonResult Delete(Chat_Delete_Request request)
         {
-            var response = requestService.Post("Chat", "Delete", id);
+            var response = requestService.Post("Chat", "Delete", request);
             Console.WriteLine(response);
             var data = JsonConvert.DeserializeObject<Chat_Delete_Response>(response);
             return Json(new{ result = data.result, message = data.message });

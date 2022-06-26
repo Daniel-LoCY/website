@@ -21,6 +21,11 @@ namespace WebApplication1.Models
         public string message { get; set; }
     }
 
+    public class Chat_Delete_Request
+    {
+        public int id { get; set; }
+    }
+
     public class Chat_Delete_Response
     {
         public string result { get; set; }
