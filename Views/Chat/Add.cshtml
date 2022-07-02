@@ -4,13 +4,28 @@
     ViewData["Title"] = "留言板新增";
 }
 
-<form method="post" action="New">
-    <div>
-        <label>內容:</label>
-        <input asp-for=@Model.chat_New_Request.name type="text" required/>
-        <button type="button" id="btn" class="btn btn-primary">新增</button>
-    <div>
-</form>
+<div class="modal fade" id="AddModal" data-bs-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5>新增</h5>
+                <button data-bs-dismiss="modal" class="btn-close" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form method="post" asp-controller="Chat" asp-action="New">
+                    <div>
+                        <label>內容:</label>
+                        <input asp-for=@Model.chat_New_Request.name type="text" class="form-control" required/>
+                    <div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                <button type="button" id="btn" class="btn btn-primary">新增</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <script>
     $("#btn").click(function (){
