@@ -6,7 +6,7 @@ namespace WebApplication1.Service
 {
     public class RequestService
     {
-        #if false
+        #if true
             private readonly string url = "https://localhost:7164/";
         #else
             private readonly string url = "https://daniellapi.azurewebsites.net/";
@@ -16,15 +16,15 @@ namespace WebApplication1.Service
             WebRequest request = WebRequest.Create(url + api + "/" + method);
             request.Credentials = CredentialCache.DefaultCredentials;
             WebResponse response = request.GetResponse();
-            string s = "";
+            string ResponseString = "";
             using (Stream dataStream = response.GetResponseStream())
             {
                 StreamReader reader = new StreamReader(dataStream);
-                s = reader.ReadToEnd();
+                ResponseString = reader.ReadToEnd();
             }
             response.Close();
-            Console.WriteLine($"{api}/{method}");
-            return s;
+            Console.WriteLine($"{url}{api}/{method}/ {ResponseString}");
+            return ResponseString;
         }
 
         public string Post(string api, string method, object param){
@@ -32,7 +32,7 @@ namespace WebApplication1.Service
             request.Method = "POST";
             request.Credentials = CredentialCache.DefaultCredentials;
             string postData = JsonConvert.SerializeObject(param, new JsonSerializerSettings(){NullValueHandling = NullValueHandling.Ignore});
-            Console.WriteLine($"{api}/{method} {postData}");
+            Console.WriteLine($"{url}{api}/{method}");
             byte[] byteArray = Encoding.UTF8.GetBytes(postData);
             request.ContentType = "application/json";
             request.ContentLength = byteArray.Length;

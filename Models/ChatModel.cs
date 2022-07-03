@@ -3,7 +3,7 @@ namespace WebApplication1.Models
     public class SqlModel
     {
         public int id { get; set; }
-        public string name { get; set; }
+        public string content { get; set; }
     }
     public class Chat_List
     {
@@ -12,7 +12,7 @@ namespace WebApplication1.Models
 
     public class Chat_New_Request
     {
-        public string name { get; set; }
+        public string content { get; set; }
     }
 
     public class Chat_New_Response
@@ -41,6 +41,6 @@ namespace WebApplication1.Models
     public class Chat_Modify_Request
     {
         public int id { get; set; }
-        public string name { get; set; }
+        public string content { get; set; }
     }
 }

@@ -11,7 +11,7 @@
                 {
                     <tr>
                         <td id="id">@item.id</td>
-                        <td><div id="name">@item.name</div></td>
+                        <td><div id="name">@item.content</div></td>
                         <td>
                             <div id="operate">
                                 <button class="btn btn-secondary" type="button" onclick="Edit(this)">修改</button>
@@ -78,7 +78,7 @@
         $.ajax({
             url: "@Url.Action("Modify", "Chat")",
             type: "POST",
-            data: { "id" : tr.find("#id").html(), "name" : tr.find("#modify_name").val() },
+            data: { "id" : tr.find("#id").html(), "content" : tr.find("#modify_name").val() },
             success: function(data){
                 if(data.result == "success"){
                     swal('修改成功', '', 'success').then(function(){
