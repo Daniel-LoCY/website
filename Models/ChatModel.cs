@@ -3,22 +3,22 @@ namespace WebApplication1.Models
     public class SqlModel
     {
         public int id { get; set; }
-        public string content { get; set; }
+        public string content { get; set; } = "";
     }
     public class Chat_List
     {
-        public List<SqlModel> list { get; set; }
+        public List<SqlModel> list { get; set; } = new List<SqlModel>();
     }
 
     public class Chat_New_Request
     {
-        public string content { get; set; }
+        public string content { get; set; } = "";
     }
 
     public class Chat_New_Response
     {
-        public string result { get; set; }
-        public string message { get; set; }
+        public string result { get; set; } = "";
+        public string message { get; set; } = "";
     }
 
     public class Chat_Delete_Request
@@ -28,19 +28,19 @@ namespace WebApplication1.Models
 
     public class Chat_Delete_Response
     {
-        public string result { get; set; }
-        public string message { get; set; }
+        public string result { get; set; } = "";
+        public string message { get; set; } = "";
     }
 
     public class Chat_Modify_Response
     {
-        public string result { get; set; }
-        public string message { get; set; }
+        public string result { get; set; } = "";
+        public string message { get; set; } = "";
     }
 
     public class Chat_Modify_Request
     {
         public int id { get; set; }
-        public string content { get; set; }
+        public string content { get; set; } = "";
     }
 }
