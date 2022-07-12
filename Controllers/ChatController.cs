@@ -19,14 +19,6 @@ namespace WebApplication1.Controllers
             return View(viewModel);
         }
 
-        // public async Task<IActionResult> Test()
-        // {
-        //     var s = await requestService.Test("chat", "list");
-        //     Console.WriteLine(s);
-        //     TempData["s"] = s;
-        //     return View();
-        // }
-
         [HttpPost]
         public async Task<IActionResult> New([Bind(Prefix = "chat_New_Request")] Chat_New_Request request)
         {
@@ -54,6 +46,12 @@ namespace WebApplication1.Controllers
             var  response = await requestService.Post("Chat", "modify", request);
             var data = responseService.GetData<Chat_Modify_Response>(response);
             return Json(new {result = data.result});
+        }
+        
+        public async Task<IActionResult> Test()
+        {
+            TempData["s"] = "11s";
+            return View();
         }
     }
 }

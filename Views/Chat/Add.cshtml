@@ -28,13 +28,13 @@
 </div>
 
 <script>
-    $("#btn").click(function (){
-        let form = document.getElementById("btn").closest("form");
+    document.querySelector("#btn").addEventListener('click', function(){
+        let form = this.closest("form");
         if(!form.checkValidity()){
             swal('錯誤', '請輸入內容', 'error');
         }
         else{
-            $("#btn").attr("disabled", "true")
+            this.setAttribute("disabled", "true")
             form.submit()
         }
     })

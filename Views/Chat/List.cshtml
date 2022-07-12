@@ -65,20 +65,20 @@
     }
 
     function Edit(btn){
-        let form = $(btn).closest("tr")
-        let name = form.find("#name")
-        let name_value = $(name).html()
-        $(name).html(`<input class="form-control" id="modify_name" value=${name_value} />`)
-        form.find("#operate").attr("class", "d-none")
-        form.find("#edit").attr("class", "")
+        let tr = btn.closest("tr")
+        let name = tr.querySelector("#name")
+        let name_value = name.innerHTML
+        name.innerHTML = `<input class="form-control" id="modify_name" value=${name_value} />`
+        tr.querySelector("#operate").setAttribute("class", "d-none")
+        tr.querySelector("#edit").setAttribute("class", "")
     }
 
     function Modify(btn){
-        let tr = $(btn).closest("tr")
+        let tr = btn.closest("tr")
         $.ajax({
             url: "@Url.Action("Modify", "Chat")",
             type: "POST",
-            data: { "id" : tr.find("#id").html(), "content" : tr.find("#modify_name").val() },
+            data: { "id" : tr.querySelector("#id").innerHTML, "content" : tr.querySelector("#modify_name").value },
             success: function(data){
                 if(data.result == "success"){
                     swal('修改成功', '', 'success').then(function(){
@@ -95,9 +95,9 @@
     }
 
     function Cancel(btn){
-        let form = $(btn).closest("tr")
-        form.find("#name").html(`${form.find("#modify_name").val()}`)
-        form.find("#operate").attr("class", "")
-        form.find("#edit").attr("class", "d-none")
+        let tr = btn.closest("tr")
+        tr.querySelector("#name").innerHTML = `${tr.querySelector("#modify_name").value}`
+        tr.querySelector("#operate").setAttribute("class", "")
+        tr.querySelector("#edit").setAttribute("class", "d-none")
     }
 </script>

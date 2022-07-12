@@ -1,1 +1,18 @@
-@TempData["s"]
+@{ var integer = 0; }
+
+<p>@integer</p>
+
+@{
+    var str = "string";
+    var s = "This is ";
+    var message = s + str;
+}
+
+<p>@message</p>
+
+@{ var list = new List<int>(){ 1, 2, 3, 4, 5 }; }
+
+@foreach (var item in list)
+{
+    <p>@item</p>
+}
